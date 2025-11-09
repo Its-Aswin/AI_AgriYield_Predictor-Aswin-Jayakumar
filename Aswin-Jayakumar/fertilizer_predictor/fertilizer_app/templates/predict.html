@@ -260,10 +260,11 @@
 
         {% if prediction %}
             <div class="result">
-                <h2><i class="fas fa-chart-bar"></i> Predicted Yield: {{ prediction|floatformat:2 }} kg/ha</h2>
-                <p>This is the estimated yield per hectare based on your input parameters.</p>
+                <h2><i class="fas fa-chart-bar"></i> Predicted Yield: {{ prediction|floatformat:2 }} tons/ha</h2>
+                <p>This is the estimated yield in <b>tons per hectare (t/ha)</b> based on your input parameters.</p>
             </div>
         {% endif %}
+
     </div>
 </body>
 </html>
