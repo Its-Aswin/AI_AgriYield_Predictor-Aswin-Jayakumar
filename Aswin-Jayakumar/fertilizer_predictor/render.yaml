@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: fertilizer-yield-predictor
+    env: python
+    plan: free
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py collectstatic --noinput
+    startCommand: gunicorn fertilizer_predictor.wsgi:application
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: fertilizer_predictor.settings

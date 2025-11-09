@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fertilizer Yield Predictor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ---- Glassmorphic Theme ---- */
+        :root {
+            --primary: #4f8cff;
+            --primary-dark: #3a6fd9;
+            --secondary: #7b68ee;
+            --accent: #00c9a7;
+            --text: #2d3748;
+            --text-light: #718096;
+            --bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --glass: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.18);
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 950px;
+            background: var(--glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            padding: 30px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .header p {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 1.1rem;
+            margin-top: 5px;
+        }
+
+        /* ---- Form Grid ---- */
+        .form-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            justify-content: center;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 100%;
+            max-width: 380px;
+            margin: 0 auto;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        input[type="number"], select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        input[type="number"]:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 140, 255, 0.2);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent);
+        }
+
+        button {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 16px 24px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(123, 104, 238, 0.4);
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            text-align: center;
+            border-left: 6px solid var(--accent);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .result h2 {
+            color: var(--primary-dark);
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .result p {
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        /* ✅ Center the last card when alone in last row */
+        @media (min-width: 769px) {
+            .form-container > .card:last-child {
+                grid-column: 1 / -1;
+                justify-self: center;
+                max-width: 500px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .form-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-seedling"></i> Fertilizer Yield Predictor</h1>
+            <p>Estimate your crop yield based on soil nutrients, weather, and fertilizer usage.</p>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-container">
+
+                <!-- Soil & Environment -->
+                <div class="card">
+                    <h2 class="card-title"><i class="fas fa-flask"></i> Soil & Environment</h2>
+                    {{ form.N.label_tag }} {{ form.N }}
+                    {{ form.P.label_tag }} {{ form.P }}
+                    {{ form.K.label_tag }} {{ form.K }}
+                    {{ form.temperature.label_tag }} {{ form.temperature }}
+                    {{ form.humidity.label_tag }} {{ form.humidity }}
+                    {{ form.ph.label_tag }} {{ form.ph }}
+                    {{ form.rainfall.label_tag }} {{ form.rainfall }}
+                </div>
+
+                <!-- Crop Selection -->
+                <div class="card">
+                    <h2 class="card-title"><i class="fas fa-seedling"></i> Crop Selection</h2>
+                    <p style="color: var(--text-light); font-size: 0.95rem; margin-bottom: 10px;">
+                        Choose the crop for which you want to predict the yield.
+                    </p>
+                    {{ form.crop.label_tag }} {{ form.crop }}
+                    <p style="margin-top:15px; color: var(--text-light); font-size: 0.9rem;">
+                        The system automatically factors in nutrient–climate interactions like <b>N × Temperature</b> and <b>P × Humidity</b>.
+                    </p>
+                </div>
+
+                <!-- Fertilizer Usage -->
+                <div class="card">
+                    <h2 class="card-title"><i class="fas fa-vials"></i> Fertilizer Usage</h2>
+                    <p style="color: var(--text-light); font-size: 0.95rem; margin-bottom: 10px;">
+                        Select the fertilizers applied to this crop.
+                    </p>
+                    {% for field in form %}
+                        {% if "fertilizer" in field.name %}
+                            <div class="checkbox-group">
+                                {{ field }} {{ field.label_tag }}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 20px;">
+                <button type="submit">
+                    <i class="fas fa-chart-line"></i> Predict Yield
+                </button>
+            </div>
+        </form>
+
+        {% if prediction %}
+            <div class="result">
+                <h2><i class="fas fa-chart-bar"></i> Predicted Yield: {{ prediction|floatformat:2 }} kg/ha</h2>
+                <p>This is the estimated yield per hectare based on your input parameters.</p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
